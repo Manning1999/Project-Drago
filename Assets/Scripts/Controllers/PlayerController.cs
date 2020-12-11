@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : HurtableObject
+public class PlayerController : MonoBehaviour, IHurtable
 {
 
 
@@ -23,6 +23,18 @@ public class PlayerController : HurtableObject
         }
     }
 
+    [SerializeField]
+    protected int health = 100;
+
+    [SerializeField]
+    protected int maxHealth = 100;
+
+    [SerializeField]
+    protected bool isEssential = false;
+
+    public bool _isEssential { get => isEssential; set => throw new System.NotImplementedException(); }
+    public int _health { get => health; set => throw new System.NotImplementedException(); }
+    public int _maxHealth { get => maxHealth; set => throw new System.NotImplementedException(); }
 
     CharacterController characterController = null;
 
@@ -151,7 +163,18 @@ public class PlayerController : HurtableObject
         canControlLooking = set;
     }
 
-    
-   
+    public void OnTakeDamage(int damageTaken)
+    {
+        throw new System.NotImplementedException();
+    }
 
+    public void OnHeal(int healthRestored)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnDie()
+    {
+        throw new System.NotImplementedException();
+    }
 }

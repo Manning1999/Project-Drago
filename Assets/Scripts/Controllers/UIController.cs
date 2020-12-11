@@ -65,6 +65,11 @@ public class UIController : MonoBehaviour
     protected List<GameObject> activeSpeechObjects = new List<GameObject>();
 
 
+    [SerializeField]
+    protected GameObject questFinishedObject = null;
+
+    [SerializeField]
+    protected TextMeshProUGUI questFinishedText = null;
 
     public void Start()
     {
@@ -313,5 +318,15 @@ public class UIController : MonoBehaviour
     {
         
             focusedSpeech.text = speech;
+    }
+
+    
+
+    public IEnumerator FinishQuest(string questName)
+    {
+        questFinishedText.SetText(questName);
+        questFinishedObject.SetActive(true);
+        yield return new WaitForSeconds(5);
+        questFinishedObject.SetActive(false);
     }
 }

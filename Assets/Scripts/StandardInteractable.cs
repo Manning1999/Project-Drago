@@ -16,6 +16,8 @@ public class StandardInteractable : MonoBehaviour, IInteractable
         get => isInteractable;
     }
 
+    UnityEvent IInteractable.OnInteract { get { return OnInteract; } }
+
     [SerializeField]
     protected AudioClip interactionSound;
 

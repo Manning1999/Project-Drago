@@ -62,4 +62,6 @@ public class ConversationAI : NPC
     {
         isTalkable = set;   
     }
+
+
 }

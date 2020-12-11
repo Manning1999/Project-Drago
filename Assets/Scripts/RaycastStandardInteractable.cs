@@ -9,14 +9,13 @@ public class RaycastStandardInteractable : MonoBehaviour, IInteractable
     public UnityEvent OnInteract = new UnityEvent();
 
     [SerializeField]
-    //private bool isInteractable = true;
-
-    bool isInteractable = true;
+    protected bool isInteractable = true;
 
     bool IInteractable._isInteractable{
-        get => isInteractable;
+        get { return isInteractable; }
     }
 
+    UnityEvent IInteractable.OnInteract { get { return OnInteract; } }
 
     public void InteractWith()
     {

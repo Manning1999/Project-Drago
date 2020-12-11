@@ -4,11 +4,16 @@ using UnityEngine;
 
 public interface IHurtable
 {
+    bool _isEssential { get; set; }
+    int _health { get; set; }
+    int _maxHealth { get; set; }
 
-    void TakeDamage(int damageTaken);
 
-    void Heal(int healthRestored);
+    void OnTakeDamage(int damageTaken);
+   
 
-    void Die();
+    void OnHeal(int healthRestored);
+
+    void OnDie();
     
 }

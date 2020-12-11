@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{4CC5CC2A-B6C5-BD78-CB99-52C92B4C97B0}</ProjectGuid>
+    <ProjectGuid>{B8CD9E49-FC43-5CC9-D17C-D098CE73CC44}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -63,11 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Controllers\AI\DragonController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\AI\HurtableObject.cs" />
     <Compile Include="Assets\Scripts\Controllers\AI\NPC.cs" />
     <Compile Include="Assets\Scripts\Controllers\ConversationAI.cs" />
     <Compile Include="Assets\Scripts\Controllers\ConversationElement.cs" />
-    <Compile Include="Assets\Scripts\Controllers\HighlightObjective.cs" />
     <Compile Include="Assets\Scripts\Controllers\InteractionController.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Controllers\QuestController.cs" />
@@ -75,12 +73,18 @@
     <Compile Include="Assets\Scripts\Controllers\QuestObjective.cs" />
     <Compile Include="Assets\Scripts\Controllers\RaycastInteractionController.cs" />
     <Compile Include="Assets\Scripts\Controllers\SkillTree.cs" />
-    <Compile Include="Assets\Scripts\Controllers\SpeechObjective.cs" />
     <Compile Include="Assets\Scripts\Controllers\UIController.cs" />
     <Compile Include="Assets\Scripts\ConversationButton.cs" />
+    <Compile Include="Assets\Scripts\Helpers\HurtableExtension.cs" />
+    <Compile Include="Assets\Scripts\Helpers\InteractableExtension.cs" />
     <Compile Include="Assets\Scripts\Helpers\RenderExtentions.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IHurtable.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
+    <Compile Include="Assets\Scripts\InventoryController.cs" />
+    <Compile Include="Assets\Scripts\InventoryItem.cs" />
+    <Compile Include="Assets\Scripts\ObjectiveTypes\HighlightObjective.cs" />
+    <Compile Include="Assets\Scripts\ObjectiveTypes\LocationObjective.cs" />
+    <Compile Include="Assets\Scripts\ObjectiveTypes\SpeechObjective.cs" />
     <Compile Include="Assets\Scripts\QuestLog.cs" />
     <Compile Include="Assets\Scripts\RaycastStandardInteractable.cs" />
     <Compile Include="Assets\Scripts\Skill.cs" />
@@ -109,22 +113,22 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/manni/Desktop/Projects/Project Drago/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/manni/Desktop/Projects/ProjectDrago/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/manni/Desktop/Projects/Project Drago/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/manni/Desktop/Projects/ProjectDrago/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/manni/Desktop/Projects/Project Drago/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/manni/Desktop/Projects/ProjectDrago/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/manni/Desktop/Projects/Project Drago/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/manni/Desktop/Projects/ProjectDrago/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/manni/Desktop/Projects/Project Drago/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/manni/Desktop/Projects/ProjectDrago/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>C:/Users/manni/Desktop/Projects/Project Drago/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>C:/Users/manni/Desktop/Projects/ProjectDrago/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -313,13 +317,13 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.11f1/Editor/Data/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Users/manni/Desktop/Projects/Project Drago/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/Users/manni/Desktop/Projects/ProjectDrago/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Users/manni/Desktop/Projects/Project Drago/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/manni/Desktop/Projects/ProjectDrago/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Users/manni/Desktop/Projects/Project Drago/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/Users/manni/Desktop/Projects/ProjectDrago/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.11f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
