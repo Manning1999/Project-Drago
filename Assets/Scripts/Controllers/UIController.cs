@@ -43,6 +43,9 @@ public class UIController : MonoBehaviour
     private TextMeshProUGUI questHUD = null;
 
     [SerializeField]
+    protected GameObject inventoryGUI;
+
+    [SerializeField]
     private List<GameObject> togglableUIElements = new List<GameObject>();
 
     [SerializeField]
@@ -56,10 +59,15 @@ public class UIController : MonoBehaviour
 
 
 
+
+
     protected bool isInConversation = false;
 
     [SerializeField]
     protected GameObject speechPrefab = null;
+
+    [SerializeField]
+    protected GameObject unfocusedSpeechPrefab = null;
 
     protected List<GameObject> InactiveSpeechObjects = new List<GameObject>();
     protected List<GameObject> activeSpeechObjects = new List<GameObject>();
@@ -212,21 +220,31 @@ public class UIController : MonoBehaviour
     /// </summary>
     /// <param name="speech"></param>
     /// <param name="location"></param>
-    public void SetUnfocusedSpeechSubtitle(string speech, GameObject location)
+    public void SetUnfocusedSpeechSubtitle(string speech, GameObject location, float time = 3)
     {
         if(InactiveSpeechObjects.Count >= 1)
         {
             GameObject speechBeingActivated = InactiveSpeechObjects[0];
             speechBeingActivated.SetActive(true);
-            speechBeingActivated.transform.GetChild(0).transform.GetComponent<TextMeshProUGUI>().SetText(speech);
+            speechBeingActivated.transform.GetComponent<UnfocusedDialogue>().SetDetails(speech, time);
             InactiveSpeechObjects.Remove(speechBeingActivated);
             activeSpeechObjects.Add(speechBeingActivated);
             speechBeingActivated.transform.position = location.transform.position;
         }
         else
         {
-                    //Instantiate a new speech object
+            //Instantiate a new speech object
+            GameObject newSpeechObject = Instantiate(unfocusedSpeechPrefab, location.transform.position, Quaternion.identity, null);
+            newSpeechObject.transform.GetComponent<UnfocusedDialogue>().SetDetails(speech, time);
+            activeSpeechObjects.Add(newSpeechObject);
         }
+    }
+
+    public void UnsetUnfocusedDialogue(UnfocusedDialogue dialogueToClose)
+    {
+        InactiveSpeechObjects.Add(dialogueToClose.gameObject);
+        activeSpeechObjects.Remove(dialogueToClose.gameObject);
+        dialogueToClose.gameObject.SetActive(false);
     }
 
 
@@ -329,4 +347,19 @@ public class UIController : MonoBehaviour
         yield return new WaitForSeconds(5);
         questFinishedObject.SetActive(false);
     }
+
+    /// <summary>
+    /// This will set the inventory's visibility
+    /// </summary>
+    public void ShowInventory()
+    {
+        ShowUIElement(inventoryGUI);
+    }
+
+    public void SetShowCharacter(bool set)
+    {
+
+    }
+
+
 }

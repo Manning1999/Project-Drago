@@ -18,13 +18,22 @@ public class ConversationAI : NPC
     protected List<ConversationElement> conversationLines = new List<ConversationElement>();
     public List<ConversationElement> _conversationLines { get { return conversationLines; } }
 
+    [SerializeField]
+    private GameObject unfocusedDialoguePosition = null; 
+    public GameObject _unfocusedDialoguePosition { get { return unfocusedDialoguePosition; } private set { unfocusedDialoguePosition = value; } } 
+
     // Start is called before the first frame update
     void Start()
     {
         uiCont = UIController.Instance;
         foreach(ConversationElement element in conversationLines)
         {
-            element.SetParent(this);
+            element.SetDetails(this, requiresFocus);
+        }
+
+        if(unfocusedDialoguePosition == null)
+        {
+            unfocusedDialoguePosition = this.gameObject;
         }
     }
 
@@ -44,7 +53,7 @@ public class ConversationAI : NPC
             }
             else
             {
-                
+                SetPassingDialogue();
             }
         }
         else
@@ -61,6 +70,14 @@ public class ConversationAI : NPC
     public void SetCanTalk(bool set)
     {
         isTalkable = set;   
+    }
+
+
+    private void SetPassingDialogue()
+    {
+        isTalkable = false;
+        conversationLines[0].ChooseRandomResponse();
+        
     }
 
 

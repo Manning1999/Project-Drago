@@ -70,7 +70,15 @@ public class PlayerController : MonoBehaviour, IHurtable
 
     int jumpForce = 200;
 
-                
+    [SerializeField]
+    protected GameObject rightHand;
+    public GameObject _righthand { get { return rightHand; } protected set { rightHand = value; } }
+
+    [SerializeField]
+    protected GameObject leftHand;
+    public GameObject _lefthand { get { return leftHand; } protected set { leftHand = value; } }
+
+
     public void Start()
     {
         rb = transform.GetComponent<Rigidbody>();
@@ -152,6 +160,24 @@ public class PlayerController : MonoBehaviour, IHurtable
 
         // Move the controller
         characterController.Move(moveDirection * Time.deltaTime);
+
+        if (isRunning == false)
+        {
+            rightHand.GetComponent<Animator>().SetBool("isRunning", false);
+            if (curSpeedX >= 0.2)
+            {
+                rightHand.GetComponent<Animator>().SetBool("isWalking", true);
+            }
+            else
+            {
+                rightHand.GetComponent<Animator>().SetBool("isWalking", false);
+               
+            }
+        }
+        else
+        {
+            rightHand.GetComponent<Animator>().SetBool("isRunning", true);
+        }
 
         
     }

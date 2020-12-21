@@ -55,6 +55,8 @@ public class ConversationElement : MonoBehaviour
     [SerializeField]
     protected bool closesConversation = false;
 
+    private bool requiresFocus;
+
     protected void Start()
     {
         uiCont = UIController.Instance;
@@ -106,7 +108,11 @@ public class ConversationElement : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// This waits for the dialogue line to finish and then runs the On finish event
+    /// </summary>
+    /// <param name="line"></param>
+    /// <returns></returns>
     public IEnumerator AIResponseTimer(ConversationLine line)
     {
         uiCont.SetFocusedSpeech(line.speech);
@@ -117,6 +123,8 @@ public class ConversationElement : MonoBehaviour
         {
             hasBeenUsed = true;
         }
+        parent.SetCanTalk(true);
+        
     }
 
 
@@ -125,7 +133,13 @@ public class ConversationElement : MonoBehaviour
     /// </summary>
     public virtual void ChooseRandomResponse()
     {
-        //uiCont.SetSpeechSubtitle(aiResponses[Random.Range(0, aiResponses.Count)].speech);
+
+        ConversationLine randomResponse = aiResponses[Random.Range(0, aiResponses.Count)];
+        if (requiresFocus == false)
+        {
+            UIController.Instance.SetUnfocusedSpeechSubtitle(randomResponse.speech, parent._unfocusedDialoguePosition, randomResponse.time);
+            StartCoroutine(AIResponseTimer(randomResponse));
+        }
     }
 
 
@@ -135,10 +149,13 @@ public class ConversationElement : MonoBehaviour
     }
 
 
-    public void SetParent(ConversationAI ai)
+    public void SetDetails(ConversationAI ai, bool focused)
     {
         parent = ai;
+        requiresFocus = focused;
     }
+
+
 
    
 
