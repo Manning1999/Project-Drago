@@ -32,9 +32,9 @@ public class PlayerController : MonoBehaviour, IHurtable
     [SerializeField]
     protected bool isEssential = false;
 
-    public bool _isEssential { get => isEssential; set => throw new System.NotImplementedException(); }
-    public int _health { get => health; set => throw new System.NotImplementedException(); }
-    public int _maxHealth { get => maxHealth; set => throw new System.NotImplementedException(); }
+    public bool _isEssential { get => isEssential; set { isEssential = value; } }
+    public int _health { get => health; set { health = value; } }
+    public int _maxHealth { get => maxHealth; set { maxHealth = value; } }
 
     CharacterController characterController = null;
 
@@ -79,6 +79,17 @@ public class PlayerController : MonoBehaviour, IHurtable
     public GameObject _lefthand { get { return leftHand; } protected set { leftHand = value; } }
 
 
+    public static List<Arrow> activeArrowPool = new List<Arrow>();
+    public static List<Arrow> inactiveArrowPool = new List<Arrow>();
+
+    [SerializeField]
+    private GameObject arrowPrefab = null;
+
+    [SerializeField]
+    private GameObject nockLocation = null;
+
+    Arrow nockedArrow = null;
+
     public void Start()
     {
         rb = transform.GetComponent<Rigidbody>();
@@ -90,7 +101,12 @@ public class PlayerController : MonoBehaviour, IHurtable
 
         Look();
         Move();
+
+
+        
     }
+
+
 
 
     protected void Look()
@@ -191,16 +207,16 @@ public class PlayerController : MonoBehaviour, IHurtable
 
     public void OnTakeDamage(int damageTaken)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void OnHeal(int healthRestored)
     {
-        throw new System.NotImplementedException();
+        //Increase health    
     }
 
     public void OnDie()
     {
-        throw new System.NotImplementedException();
+        //Show death menu
     }
 }
