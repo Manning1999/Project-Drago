@@ -19,6 +19,8 @@ public class QuestLog : MonoBehaviour
 
     protected Image imageComponent = null;
 
+    private QuestLine associatedQuest = null;
+
     protected void Start()
     {
         imageComponent = transform.GetComponent<Image>();
@@ -34,6 +36,7 @@ public class QuestLog : MonoBehaviour
         {
             
             imageComponent.color = selectedColor;
+            QuestController.Instance.ShowQuestDetails(associatedQuest);
         }
         else
         {
@@ -41,8 +44,14 @@ public class QuestLog : MonoBehaviour
         }
     }
 
-    public void SetDetails(string title)
+    public void Press()
+    {
+        SetSelected(!isSelected);
+    }
+
+    public void SetDetails(string title, QuestLine quest)
     {
         textReference.text = title;
+        associatedQuest = quest;
     }
 }

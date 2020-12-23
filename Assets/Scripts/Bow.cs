@@ -36,6 +36,7 @@ public class Bow : InventoryItem
 
     public void OnEnable()
     {
+        if (anim == null) anim = transform.GetComponent<Animator>();
         anim.SetFloat("DrawWeight", powerGainRate);
     }
 

@@ -108,6 +108,12 @@ public class UIController : MonoBehaviour
             
            
         }
+
+        if (Input.GetKeyDown("j") && questLogUI.activeSelf == false)
+        {
+            ShowUIElement(questLogUI);
+            QuestController.Instance.RefreshQuestList();
+        }
     }
 
 

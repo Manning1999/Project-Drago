@@ -39,10 +39,8 @@ public class Arrow : MonoBehaviour
 
 
     [ContextMenu("Activate")]
-    [ContextMenu("Activate")]
     public void Activate(float bowPower)
-    {
-    {                                      
+    {                                    
 
         transform.SetParent(null);
         shot = true;

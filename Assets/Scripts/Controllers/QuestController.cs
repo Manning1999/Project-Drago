@@ -1,9 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class QuestController : MonoBehaviour
 {
+
+
+    //create singleton
+    public static QuestController instance;
+    private static QuestController _instance;
+
+    public static QuestController Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<QuestController>();
+            }
+
+            return _instance;
+        }
+    }
+
+
     [SerializeField]
     private List<QuestLine> allQuests = new List<QuestLine>();
 
@@ -21,10 +42,15 @@ public class QuestController : MonoBehaviour
     Camera playerCamera = null;
 
     [SerializeField]
-    private GameObject questList, questTitle, questDiscription;
+    private GameObject questList;
+    
+    [SerializeField]
+    protected TextMeshProUGUI questTitle, questDescription;
 
     [SerializeField]
     protected GameObject questPrefab = null;
+
+    QuestLog selectedQuest = null;
 
     // Start is called before the first frame update
     void Start()
@@ -77,11 +103,14 @@ public class QuestController : MonoBehaviour
                 }
                 else
                 {
-                    totalQuestInfo += "\n\b-->" + objective._objectiveDescription + "<--";
+                    totalQuestInfo += "\n-->" + objective._objectiveDescription + "<--";
                     break;
                 }
             }
         }
+
+        questDescription.SetText(totalQuestInfo);
+        questTitle.SetText(questToShow.name);
     }
 
     /// <summary>
@@ -107,10 +136,25 @@ public class QuestController : MonoBehaviour
     public void RefreshQuestList()
     {
         
+       
+        foreach(Transform child in questList.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
         foreach(QuestLine quest in availableQuests)
         {
             GameObject newQuest = Instantiate(questPrefab, questList.transform.position, Quaternion.identity, questList.transform);
-            newQuest.transform.GetComponent<QuestLog>().SetDetails(quest._questTitle);
+            newQuest.transform.GetComponent<QuestLog>().SetDetails(quest._questTitle, quest);
         }
+    }
+
+    public void SelectQuest(QuestLog questToSelect)
+    {
+        if(selectedQuest != questToSelect)
+        {
+            selectedQuest.SetSelected(false);
+        }
+        selectedQuest = questToSelect;
     }
 }
