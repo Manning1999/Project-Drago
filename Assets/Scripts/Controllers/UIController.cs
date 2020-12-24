@@ -58,6 +58,10 @@ public class UIController : MonoBehaviour
     protected List<GameObject> inactivePlayerSpeechOptions = new List<GameObject>();
 
 
+    [SerializeField]
+    private GameObject magicUI = null;
+    
+
 
 
 
@@ -81,7 +85,7 @@ public class UIController : MonoBehaviour
 
     public void Start()
     {
-        ShowUIElement(null);
+      //  ShowUIElement(null);
         SetMouseLock(true);
     }
 
@@ -114,6 +118,22 @@ public class UIController : MonoBehaviour
             ShowUIElement(questLogUI);
             QuestController.Instance.RefreshQuestList();
         }
+
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (magicUI.activeSelf == false)
+            {
+                ShowUIElement(magicUI);
+                MagicController.Instance.SetIsDoingMagic(true);
+            }
+            else
+            {
+                ShowUIElement(null);
+                MagicController.Instance.SetIsDoingMagic(false);
+            }
+            
+        }
     }
 
 
@@ -123,6 +143,7 @@ public class UIController : MonoBehaviour
     /// <param name="uiElementToShow"></param>
     public void ShowUIElement(GameObject uiElementToShow)
     {
+        Debug.Log("Doing something now");
 
         if (uiElementToShow != null && togglableUIElements.Contains(uiElementToShow))
         {

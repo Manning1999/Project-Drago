@@ -73,6 +73,11 @@
     <Compile Include="Assets\Scripts\Controllers\ConversationElement.cs" />
     <Compile Include="Assets\Scripts\Controllers\InteractionController.cs" />
     <Compile Include="Assets\Scripts\Controllers\InventoryController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\Brisingr.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\MagicAdjective.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\MagicController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\MagicVerb.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\MagicWord.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Controllers\QuestController.cs" />
     <Compile Include="Assets\Scripts\Controllers\QuestLine.cs" />
@@ -82,8 +87,10 @@
     <Compile Include="Assets\Scripts\Controllers\UIController.cs" />
     <Compile Include="Assets\Scripts\Controllers\UnfocusedDialogue.cs" />
     <Compile Include="Assets\Scripts\ConversationButton.cs" />
+    <Compile Include="Assets\Scripts\Fire.cs" />
     <Compile Include="Assets\Scripts\Helpers\HurtableExtension.cs" />
     <Compile Include="Assets\Scripts\Helpers\InteractableExtension.cs" />
+    <Compile Include="Assets\Scripts\Helpers\MagicDropDown.cs" />
     <Compile Include="Assets\Scripts\Helpers\RenderExtentions.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IHurtable.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
