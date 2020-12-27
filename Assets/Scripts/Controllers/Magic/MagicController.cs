@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
+using UnityEngine.Rendering.PostProcessing;
 
 public class MagicController : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class MagicController : MonoBehaviour
     }
 
 
+    [SerializeField]
+    private Color selectedObjectOutlineColor, unselectedObjectOutlineColor;
 
     [SerializeField]
     private int playerMaxMana = 100;
@@ -37,10 +40,10 @@ public class MagicController : MonoBehaviour
     protected GameObject sentenceObject = null;
 
     [SerializeField]
-    private MagicWord sentenceVerb = null;
+    private MagicVerb sentenceVerb = null;
 
     [SerializeField]
-    private MagicWord sentenceAdjective = null;
+    private MagicAdverb sentenceAdverb = null;
 
     private List<Vector3> spellLocations = new List<Vector3>();
 
@@ -53,48 +56,169 @@ public class MagicController : MonoBehaviour
     private TrailRenderer magicTrail = null;
 
     [SerializeField]
-    private MagicDropDown verbDropDown, adjectiveDropDown;
+    private MagicDropDown verbDropDown, adverbDropDown;
+
+    [SerializeField]
+    private Button castButton = null; 
 
     bool isDoingMagic = false;
 
     [SerializeField]
     Camera camera = null;
 
+    private bool iSAllowedToDraw = false;
+
+    [SerializeField]
+    private GameObject learntMagicEfect = null;
+
+    ColorGrading mainCameraColorGradingLayer = null;
+
+    [SerializeField]
+    Camera magicalCamera = null;
+
+    [SerializeField]
+    PostProcessVolume ppVol = null;
+
+    int originalCullingMask;
+
+
     private void Start()
     {
 
+        ppVol.profile.TryGetSettings(out mainCameraColorGradingLayer);
+        originalCullingMask = camera.cullingMask;
     }
 
     private void Update()
     {
 
-        if(isDoingMagic == true)
+        if (isDoingMagic == true)
         {
-            if (Input.GetMouseButtonDown(1))
+            
+
+
+            if (sentenceVerb != null)
             {
-                spellLocations.Clear();
-                magicTrail.Clear();
-                
+                if (sentenceVerb._canDraw == true)
+                {
+                    if (sentenceAdverb != null)
+                    {
+                        if (sentenceAdverb._canDraw == true)
+                        {
+                            iSAllowedToDraw = true;
+                        }
+                        else
+                        {
+                            iSAllowedToDraw = false;
+                        }
+                    }
+                    else
+                    {
+                        iSAllowedToDraw = true;
+                    }
+                }
+                else
+                {
+                    if (sentenceAdverb != null)
+                    {
+                        if (sentenceAdverb._canDraw == true)
+                        {
+                            iSAllowedToDraw = true;
+                        }
+                        else
+                        {
+                            iSAllowedToDraw = false;
+                        }
+                    }
+                }
             }
 
-            if (Input.GetMouseButton(1))
+            if (iSAllowedToDraw == true)
             {
                 RaycastHit hit;
                 Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
                 if (Physics.Raycast(ray, out hit))
                 {
-                    Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.yellow);
+                    Vector3 dir = (hit.point - camera.transform.position).normalized;
 
-                      Vector3 dir = (hit.point - camera.transform.position).normalized;
-                      AddMagicLocation(camera.transform.position + dir * (hit.distance - 0.05f));
-                    // AddMagicLocation(hit.point);
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        spellLocations.Clear();
+                        AddMagicLocation(camera.transform.position + dir * (hit.distance - 0.01f));
+                        magicTrail.Clear();
+
+
+                    }
+
+                    if (Input.GetMouseButton(1) && !Input.GetMouseButtonUp(1))
+                    {
+
+                        Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.yellow);
+
+
+                        AddMagicLocation(camera.transform.position + dir * (hit.distance - 0.01f));
+
+                    }
+
+                    if (Input.GetMouseButtonUp(1))
+                    {
+                        if(sentenceVerb._doesDrawStartToEnd == true)
+                        {
+                            if (sentenceVerb._requiresStartOnMagicObject == true)
+                            {
+                                magicTrail.Clear();
+                                Vector3 firstPos = sentenceObject.transform.position;
+                                Vector3 lastPos = spellLocations[spellLocations.Count - 1];
+                                //Debug.Break();
+                                ResetMagicLocations();
+                                spellLocations.Add(firstPos);
+                                spellLocations.Add(lastPos);
+                                magicTrail.AddPosition(firstPos);
+                                magicTrail.AddPosition(lastPos);
+                                
+                            }
+                            else
+                            {
+
+
+                                magicTrail.Clear();
+                                Vector3 firstPos = spellLocations[0];
+                                Vector3 lastPos = spellLocations[spellLocations.Count - 1];
+                                //Debug.Break();
+                                ResetMagicLocations();
+                                magicTrail.AddPosition(firstPos);
+                                magicTrail.AddPosition(lastPos);
+                                
+                            }
+
+                        }
+                    }
                 }
             }
 
-            
+
+            if (Input.GetMouseButtonDown(0))
+            {
+
+                RaycastHit hit;
+                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    
+                    if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Magical"))
+                    {
+                        SetObject(hit.transform.gameObject);
+                    }
+
+                }
+            }
+
         }
     }
+
+            
 
 
   
@@ -107,33 +231,46 @@ public class MagicController : MonoBehaviour
 
             if(sentenceObject != null)
             {
-                if(sentenceAdjective != null)
+                if(sentenceAdverb != null)
                 {
                     if (spellLocations.Count >= 1)
                     {
-                        sentenceVerb.Activate(sentenceObject, sentenceAdjective, spellLocations);
+                        Vector3[] positions = new Vector3[magicTrail.positionCount];
+                        magicTrail.GetPositions(positions);
+                        sentenceVerb.Activate(sentenceObject, sentenceAdverb, positions);
                     }
                     else
                     {
-                        sentenceVerb.Activate(sentenceObject, sentenceAdjective);
+                        sentenceVerb.Activate(sentenceObject, sentenceAdverb);
                     }
                 }
                 else
                 {
-
-                }
-            }
-            else
-            {
-                if (sentenceAdjective != null)
-                {
                     if (spellLocations.Count >= 1)
                     {
-                        sentenceVerb.Activate(sentenceObject, sentenceAdjective, spellLocations);
+                        Vector3[] positions = new Vector3[magicTrail.positionCount];
+                        magicTrail.GetPositions(positions);
+                        sentenceVerb.Activate(sentenceObject, null, positions);
                     }
                     else
                     {
                         sentenceVerb.Activate(sentenceObject);
+                    }
+                }
+            }
+            else
+            {
+                if (sentenceAdverb != null)
+                {
+                    if (spellLocations.Count >= 1)
+                    {
+                        Vector3[] positions = new Vector3[magicTrail.positionCount];
+                        magicTrail.GetPositions(positions);
+                        sentenceVerb.Activate(sentenceObject, sentenceAdverb, positions);
+                    }
+                    else
+                    {
+                        sentenceVerb.Activate(sentenceObject, sentenceAdverb);
                     }
                 }
                 else
@@ -141,7 +278,9 @@ public class MagicController : MonoBehaviour
                     if (spellLocations.Count >= 1)
                     {
                         Debug.Log("Casting brisingr");
-                        sentenceVerb.Activate(sentenceObject, null, spellLocations);
+                        Vector3[] positions = new Vector3[magicTrail.positionCount];
+                        magicTrail.GetPositions(positions);
+                        sentenceVerb.Activate(sentenceObject, null, positions);
                     }
                     else
                     {
@@ -150,30 +289,70 @@ public class MagicController : MonoBehaviour
                 }
             }
         }
+
+        UIController.Instance.ShowUIElement(null);
+        SetIsDoingMagic(false);
     }
 
     public void SetIsDoingMagic(bool set)
     {
         isDoingMagic = set;
         magicTrail.Clear();
+
+        if (set == true)
+        {
+            mainCameraColorGradingLayer.saturation.value = -100f;
+            camera.cullingMask &= ~(1 << LayerMask.NameToLayer("Magical"));
+        }
+        else
+        {
+            mainCameraColorGradingLayer.saturation.value = 50f;
+            SetObject(null);
+            camera.cullingMask = originalCullingMask;
+        }
+        magicalCamera.gameObject.SetActive(set);
+
     }
 
 
     public void SetObject(GameObject objectToSet)
     {
-
+        if(sentenceObject != null)
+        {
+            sentenceObject.transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", unselectedObjectOutlineColor);
+        }
+        if (objectToSet != null)
+        {
+            sentenceObject = objectToSet;
+            objectToSet.transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", selectedObjectOutlineColor);
+        }
     }
 
-    public void SetVerb(MagicWord word)
+    public void SetVerb(MagicVerb word)
     {
         sentenceVerb = word;
+
+        if(word._compatibleAdverbs.Count >= 1)
+        {
+            SetMagicWordDropdowns();
+            adverbDropDown.gameObject.SetActive(true);
+        }
+        else
+        {
+            adverbDropDown.gameObject.SetActive(false);
+        }
+
+        
+
     }
 
 
 
-    public void SetAdjective(MagicWord word)
+    public void SetAdverb(MagicAdverb word)
     {
-        sentenceAdjective = word;
+
+        sentenceAdverb = word;
+       
     }
 
 
@@ -183,6 +362,7 @@ public class MagicController : MonoBehaviour
     {
         spellLocations.Add(point);
         magicTrail.transform.position = point;
+       
     }
 
 
@@ -193,53 +373,65 @@ public class MagicController : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// This will add words to the dropdown menus 
+    /// </summary>
     public void SetMagicWordDropdowns()
     {
-        Debug.Log(knownMagicWords.Count);
-        for (int i = dropDownOptions.Count; i > 0; i--)
+        adverbDropDown.ClearOptions();
+
+
+        adverbDropDown.AddWord(null);
+        for (int i = knownMagicWords.Count; i > 0; i--)
         {
 
-            //If the word is a verb then add it to the list
-            if (knownMagicWords[i - 1].GetType().IsSubclassOf(typeof(MagicVerb)))
-            {
-                if (!verbDropDown.options.Contains(dropDownOptions[i-1]))
-                {
-                    verbDropDown.options.Add(dropDownOptions[i-1]);
-                }
-            }
-
             //If the word is an adjective then add it to the list
-            if (knownMagicWords[i-1].GetType().IsSubclassOf(typeof(MagicAdjective)))
+            if (knownMagicWords[i-1].GetType().IsSubclassOf(typeof(MagicAdverb)))
             {
-                if (!adjectiveDropDown.options.Contains(dropDownOptions[i-1]))
+                if (!adverbDropDown.options.Contains(dropDownOptions[i-1]) && sentenceVerb._compatibleAdverbs.Contains((MagicAdverb)knownMagicWords[i-1]))
                 {
-                    adjectiveDropDown.options.Add(dropDownOptions[i-1]);
+                    adverbDropDown.AddWord(knownMagicWords[i - 1]);
                 }
             }
         }
     }
 
-    //Add a magic word to the list and then create a new dropdown option for it
+    /// <summary>
+    /// Add a magic word to the list and then create a new dropdown option for it. This will also start the "learnt magic" effect timer
+    /// </summary>
+    /// <param name="newMagicWord"></param>
     public void LearnMagicWord(MagicWord newMagicWord)
     {
-        knownMagicWords.Add(newMagicWord);
-
-        //If the word is a verb then add it to the list
-        if (newMagicWord.GetType().IsSubclassOf(typeof(MagicVerb)))
+        if (!knownMagicWords.Contains(newMagicWord))
         {
+            knownMagicWords.Add(newMagicWord);
+            learntMagicEfect.transform.position = PlayerController.Instance.transform.position + PlayerController.Instance.transform.forward * 1;
+            learntMagicEfect.transform.LookAt(PlayerController.Instance.transform.position);
+            learntMagicEfect.SetActive(true);
+            dropDownOptions.Add(new TMP_Dropdown.OptionData() { text = newMagicWord._word });
 
-            verbDropDown.AddWord(newMagicWord);
+            StartCoroutine(LearntMagicEffectTimer());
 
+
+            //If the word is a verb then add it to the list
+            if (newMagicWord.GetType().IsSubclassOf(typeof(MagicVerb)))
+            {
+
+                verbDropDown.AddWord(newMagicWord);
+
+            }
         }
 
-        //If the word is an adjective then add it to the list
-        if (newMagicWord.GetType().IsSubclassOf(typeof(MagicAdjective)))
-        {
+    }
 
-            adjectiveDropDown.AddWord(newMagicWord);
-
-        }
+    /// <summary>
+    /// This will make the learnt magic effect dissapear after a set amount of time
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator LearntMagicEffectTimer()
+    {
+        yield return new WaitForSeconds(3);
+        learntMagicEfect.SetActive(false);
     }
 
 

@@ -23,6 +23,10 @@ public class InventoryItem : MonoBehaviour, IInteractable
     public bool _isEquipable { get { return isEquipable; } protected set { isEquipable = value; } }
 
     [SerializeField]
+    protected bool dualWieldable = true;
+    public bool _dualWieldable { get { return dualWieldable; } protected set { dualWieldable = value; } }
+
+    [SerializeField]
     protected int monetaryValue;
     public int _monetaryValue { get { return monetaryValue; } protected set { monetaryValue = value; } }
 
@@ -42,7 +46,10 @@ public class InventoryItem : MonoBehaviour, IInteractable
     [SerializeField]
     protected Sprite icon;
 
-    
+    Rigidbody rb = null;
+    Collider coll = null;
+
+
     protected Mesh model;
 
     protected bool isEquipped = false;
@@ -50,10 +57,19 @@ public class InventoryItem : MonoBehaviour, IInteractable
     // Start is called before the first frame update
     void Start()
     {
-        if(model == null)
+        if (model == null)
         {
             model = transform.GetComponent<MeshFilter>().mesh;
-        }    
+        }
+        if (rb == null)
+        {
+            rb = transform.GetComponent<Rigidbody>();
+        }
+        if (coll == null)
+        {
+
+            coll = transform.GetComponent<Collider>();
+        }
     }
 
     public virtual void AddToInventory()
@@ -98,9 +114,21 @@ public class InventoryItem : MonoBehaviour, IInteractable
         }
     }
 
+    public void SetIsUsable(bool set)
+    {
+        isUsable = set;
+    }
+
     protected virtual void UseFunctionality()
     {
         //Do something
+    }
+
+    public void Drop(Vector3 positionToDrop)
+    {
+        gameObject.SetActive(true);
+        transform.position = positionToDrop;
+        
     }
 
 }

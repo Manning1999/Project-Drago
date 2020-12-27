@@ -85,7 +85,7 @@ public class UIController : MonoBehaviour
 
     public void Start()
     {
-      //  ShowUIElement(null);
+        ShowUIElement(null);
         SetMouseLock(true);
     }
 
@@ -143,7 +143,7 @@ public class UIController : MonoBehaviour
     /// <param name="uiElementToShow"></param>
     public void ShowUIElement(GameObject uiElementToShow)
     {
-        Debug.Log("Doing something now");
+
 
         if (uiElementToShow != null && togglableUIElements.Contains(uiElementToShow))
         {
@@ -367,13 +367,7 @@ public class UIController : MonoBehaviour
 
     
 
-    public IEnumerator FinishQuest(string questName)
-    {
-        questFinishedText.SetText(questName);
-        questFinishedObject.SetActive(true);
-        yield return new WaitForSeconds(5);
-        questFinishedObject.SetActive(false);
-    }
+   
 
     /// <summary>
     /// This will set the inventory's visibility

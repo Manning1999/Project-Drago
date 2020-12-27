@@ -27,12 +27,20 @@ public class Bow : InventoryItem
     [Tooltip("This effects the bow's maximum range")]
     float maxBowPower = 2;
 
+    [SerializeField]
+    [Tooltip("Time in seconds to renock the bow")]
+    float renockSpeed = 1;
+
+    bool canNock = true;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = transform.GetComponent<Animator>();
         anim.SetFloat("DrawWeight", powerGainRate);
     }
+
+    
 
     public void OnEnable()
     {
@@ -49,7 +57,7 @@ public class Bow : InventoryItem
             {
                 Use();
             }
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) && nockedArrow != null)
             {
                 ReleaseBow();
             }
@@ -75,7 +83,7 @@ public class Bow : InventoryItem
 
     protected void DrawBow()
     {
-        if (nockedArrow == null && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        if (nockedArrow == null && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && canNock == true)
         {
             anim.SetTrigger("Draw");
             NockArrow();
@@ -89,6 +97,7 @@ public class Bow : InventoryItem
         nockedArrow.Activate(bowPower);
         bowPower = 0;
         nockedArrow = null;
+        StartCoroutine(RenockTimer());
 
     }
 
@@ -145,4 +154,13 @@ public class Bow : InventoryItem
         activeArrowPool.Remove(arrowToDeactivate);
 
     }
+
+    protected IEnumerator RenockTimer()
+    {
+        canNock = false;
+        yield return new WaitForSeconds(renockSpeed);
+        canNock = true;
+    }
+
+
 }

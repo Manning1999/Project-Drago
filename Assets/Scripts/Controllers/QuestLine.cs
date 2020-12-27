@@ -76,7 +76,7 @@ public class QuestLine : MonoBehaviour
     {
         OnCompleteQuest.Invoke();
         UIController.Instance.UpdateQuestHUD(null);
-        StartCoroutine(UIController.Instance.FinishQuest(questTitle));
+        NotificationController.Instance.CreateNotification("Finished Quest:", questTitle);
     }
 
     

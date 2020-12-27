@@ -29,10 +29,12 @@ public class InventoryController : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Set to -1 to make carry weight unlimited")]
-    private int maxCarryWeight = 100;
+    private float maxCarryWeight = 100;
 
     [SerializeField]
-    private int currentCarryWeight = 0;
+    private float currentCarryWeight = 0;
+
+    InventoryItem rightHandEquippeditem, leftHandEquippedItem;
 
 
     /// <summary>
@@ -42,6 +44,7 @@ public class InventoryController : MonoBehaviour
     public void AddItemToInventory(InventoryItem itemToAdd)
     {
         itemsInInventory.Add(itemToAdd);
+        currentCarryWeight += itemToAdd._weight;
     }
 
 
@@ -52,6 +55,7 @@ public class InventoryController : MonoBehaviour
     public void RemoveItemFromInventory(InventoryItem itemToRemove)
     {
         itemsInInventory.Remove(itemToRemove);
+        currentCarryWeight -= itemToRemove._weight;
     }
 
     public void DestroyItem(InventoryItem itemToDestroy)
@@ -63,7 +67,8 @@ public class InventoryController : MonoBehaviour
     [ContextMenu("Equip bow")]
     public void test()
     {
+        rightHandEquippeditem = itemsInInventory[0];
         itemsInInventory[0].gameObject.SetActive(true);
-       itemsInInventory[0].Equip(PlayerController.Instance._righthand);
+        itemsInInventory[0].Equip(PlayerController.Instance._righthand);
     }
 }

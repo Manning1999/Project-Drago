@@ -74,10 +74,15 @@
     <Compile Include="Assets\Scripts\Controllers\InteractionController.cs" />
     <Compile Include="Assets\Scripts\Controllers\InventoryController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\Brisingr.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Magic\MagicAdjective.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\Galba_Big.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\Litil_little.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\MagicAdverb.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\MagicController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\MagicUpgrades.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\MagicVerb.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\MagicWord.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\thrautha_Throw.cs" />
+    <Compile Include="Assets\Scripts\Controllers\NotificationController.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Controllers\QuestController.cs" />
     <Compile Include="Assets\Scripts\Controllers\QuestLine.cs" />
@@ -108,6 +113,7 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\Shaders\Outline Shader.shader" />
     <None Include="Assets\Models\PolygonPrototype\Shaders\Prototype_Object.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
