@@ -7,6 +7,7 @@ public interface IHurtable
     bool _isEssential { get; set; }
     int _health { get; set; }
     int _maxHealth { get; set; }
+    bool _isDead { get; set; }
 
 
     void OnTakeDamage(int damageTaken);

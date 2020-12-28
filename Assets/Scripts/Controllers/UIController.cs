@@ -162,7 +162,7 @@ public class UIController : MonoBehaviour
             focusedSpeech.gameObject.SetActive(false);
             ClearPlayerSpeechOptions();
             focusedSpeech.SetText("");
-            Debug.Log("Hiding everything now");
+
 
         }
 
@@ -176,7 +176,7 @@ public class UIController : MonoBehaviour
             else
             {
                 UIElement.SetActive(true);
-                Debug.Log("Showing something");
+
             }
         }
     }

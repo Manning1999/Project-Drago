@@ -82,8 +82,10 @@ public class Fire : MonoBehaviour
 
         for(int i = damageables.Count; i > 0; i--)
         {
-            damageables[i].Damage(damage);
+            damageables[i - 1].Damage(damage);
+            Debug.Log("Damaging someone");
         }
+        StartCoroutine(DamageIntervalTimer());
     }
 
 
@@ -92,6 +94,7 @@ public class Fire : MonoBehaviour
     {
         if(col.transform.GetComponent<IHurtable>() != null)
         {
+            Debug.Log("A damageable has entered");
             if (!damageables.Contains(col.transform.GetComponent<IHurtable>()))
             {
                 damageables.Add(col.transform.GetComponent<IHurtable>());
@@ -103,6 +106,7 @@ public class Fire : MonoBehaviour
     {
         if (col.transform.GetComponent<IHurtable>() != null)
         {
+            Debug.Log("A damageable has exited");
             if (damageables.Contains(col.transform.GetComponent<IHurtable>()))
             {
                 damageables.Remove(col.transform.GetComponent<IHurtable>());

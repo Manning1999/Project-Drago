@@ -8,24 +8,33 @@ public static class HurtableExtension
 
     public static void Damage(this IHurtable iHurtable, int damageTaken)
     {
-        // All robots move based on their speed.
-        iHurtable._health -= damageTaken;
 
-        Debug.Log("Taken Damage");
-
-        if(iHurtable._health <= 0)
+        if (iHurtable._isDead == false)
         {
-            if (iHurtable._isEssential == true)
+            Debug.Log("Taken Damage");
+
+            if (iHurtable._health <= 0)
             {
-                
+                // Debug.Break();
+                if (iHurtable._isEssential == true)
+                {
+
+                }
+                else
+                {
+
+                    iHurtable.Die();
+                }
             }
             else
             {
-                iHurtable.Die();
+
+                iHurtable._health -= damageTaken;
+                iHurtable.OnTakeDamage(damageTaken);
             }
         }
 
-        iHurtable.OnTakeDamage(damageTaken);
+       
   
     }
 
@@ -53,10 +62,11 @@ public static class HurtableExtension
 
         Debug.Log("This object has died");
 
-        iHurtable.Die();
+
 
     }
 
+   
 
 
 }

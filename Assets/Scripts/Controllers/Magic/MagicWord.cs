@@ -28,6 +28,10 @@ public class MagicWord : MonoBehaviour
     public bool _requiresStartOnMagicObject { get { return requiresStartOnMagicObject; } protected set { requiresStartOnMagicObject = value; } }
 
     [SerializeField]
+    protected bool preferStartOnMagicObject = false;
+    public bool _preferStartOnMagicObject { get { return preferStartOnMagicObject; } protected set { preferStartOnMagicObject = value; } }
+
+    [SerializeField]
     [Tooltip("If true, the player will be able to draw multiple lines while doing magic with this spell")]
     protected bool canDrawMultipleLines = false;
     public bool _canDrawMultipleLines { get { return canDrawMultipleLines; } protected set { canDrawMultipleLines = value; } }

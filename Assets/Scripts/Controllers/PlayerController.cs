@@ -32,9 +32,13 @@ public class PlayerController : MonoBehaviour, IHurtable
     [SerializeField]
     protected bool isEssential = false;
 
+    protected bool isDead = false;
+
     public bool _isEssential { get => isEssential; set { isEssential = value; } }
     public int _health { get => health; set { health = value; } }
     public int _maxHealth { get => maxHealth; set { maxHealth = value; } }
+
+    public bool _isDead { get => isDead; set { isDead = value; } }
 
     CharacterController characterController = null;
 

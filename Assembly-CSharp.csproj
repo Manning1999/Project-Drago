@@ -74,7 +74,9 @@
     <Compile Include="Assets\Scripts\Controllers\InteractionController.cs" />
     <Compile Include="Assets\Scripts\Controllers\InventoryController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\Brisingr.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\Edtha_Me.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\Galba_Big.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\Items\Rock.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\Litil_little.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\MagicAdverb.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\MagicController.cs" />
@@ -97,8 +99,10 @@
     <Compile Include="Assets\Scripts\Helpers\InteractableExtension.cs" />
     <Compile Include="Assets\Scripts\Helpers\MagicDropDown.cs" />
     <Compile Include="Assets\Scripts\Helpers\RenderExtentions.cs" />
+    <Compile Include="Assets\Scripts\Helpers\ThrowableExtension.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IHurtable.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\IThrowable.cs" />
     <Compile Include="Assets\Scripts\InventoryItem.cs" />
     <Compile Include="Assets\Scripts\ObjectiveTypes\HighlightObjective.cs" />
     <Compile Include="Assets\Scripts\ObjectiveTypes\LocationObjective.cs" />

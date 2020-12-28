@@ -133,6 +133,8 @@ public class MagicController : MonoBehaviour
                 }
             }
 
+
+            //If the user is allowed to draw with the specified magic then use a raycast to get the mouse position when the right mouse button is clicked
             if (iSAllowedToDraw == true)
             {
                 RaycastHit hit;
@@ -142,6 +144,8 @@ public class MagicController : MonoBehaviour
                 {
                     Vector3 dir = (hit.point - camera.transform.position).normalized;
 
+
+                    //When the right mouse button is clicked down, create a new magictrail by clearing the spell locations and magic trails vetrticies
                     if (Input.GetMouseButtonDown(1))
                     {
                         spellLocations.Clear();
@@ -151,6 +155,7 @@ public class MagicController : MonoBehaviour
 
                     }
 
+                    //While the mouse is down, add the mouse's position to the list of magic positions and add another segment to the magic trail linerenderer (Done in the AddMagicLocation() method) 
                     if (Input.GetMouseButton(1) && !Input.GetMouseButtonUp(1))
                     {
 
@@ -161,6 +166,7 @@ public class MagicController : MonoBehaviour
 
                     }
 
+                    
                     if (Input.GetMouseButtonUp(1))
                     {
                         if(sentenceVerb._doesDrawStartToEnd == true)
@@ -181,14 +187,36 @@ public class MagicController : MonoBehaviour
                             else
                             {
 
-
-                                magicTrail.Clear();
-                                Vector3 firstPos = spellLocations[0];
-                                Vector3 lastPos = spellLocations[spellLocations.Count - 1];
-                                //Debug.Break();
-                                ResetMagicLocations();
-                                magicTrail.AddPosition(firstPos);
-                                magicTrail.AddPosition(lastPos);
+                                if (sentenceVerb._preferStartOnMagicObject == true)
+                                {
+                                    //If the verb prefers drawing from an object to the target but there is no object selected then draw directly from the start to finish
+                                    //If an object has been selected though, then draw a straight line from the object to the end position regardless of whether the line actually starts at the object
+                                    if (sentenceObject == null)
+                                    {
+                                        magicTrail.Clear();
+                                        Vector3 firstPos = spellLocations[0];
+                                        Vector3 lastPos = spellLocations[spellLocations.Count - 1];
+                                        //Debug.Break();
+                                        ResetMagicLocations();
+                                        magicTrail.AddPosition(firstPos);
+                                        magicTrail.AddPosition(lastPos);
+                                        spellLocations.Add(firstPos);
+                                        spellLocations.Add(lastPos);
+                                        Debug.Log("Straight line from start to end");
+                                    }
+                                    else
+                                    {
+                                        magicTrail.Clear();
+                                        Vector3 firstPos = sentenceObject.transform.position;
+                                        Vector3 lastPos = spellLocations[spellLocations.Count - 1];
+                                        //Debug.Break();
+                                        ResetMagicLocations();
+                                        spellLocations.Add(firstPos);
+                                        spellLocations.Add(lastPos);
+                                        magicTrail.AddPosition(firstPos);
+                                        magicTrail.AddPosition(lastPos);
+                                    }
+                                }
                                 
                             }
 
@@ -225,7 +253,8 @@ public class MagicController : MonoBehaviour
 
     public void Speak()
     {
-        Debug.Log("Doing magic");
+
+        
         if(sentenceVerb != null)
         {
 
@@ -277,7 +306,6 @@ public class MagicController : MonoBehaviour
                 {
                     if (spellLocations.Count >= 1)
                     {
-                        Debug.Log("Casting brisingr");
                         Vector3[] positions = new Vector3[magicTrail.positionCount];
                         magicTrail.GetPositions(positions);
                         sentenceVerb.Activate(sentenceObject, null, positions);
@@ -307,8 +335,9 @@ public class MagicController : MonoBehaviour
         else
         {
             mainCameraColorGradingLayer.saturation.value = 50f;
-            SetObject(null);
             camera.cullingMask = originalCullingMask;
+            SetObject(null);
+            ResetMagicLocations();
         }
         magicalCamera.gameObject.SetActive(set);
 
@@ -325,6 +354,10 @@ public class MagicController : MonoBehaviour
         {
             sentenceObject = objectToSet;
             objectToSet.transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", selectedObjectOutlineColor);
+        }
+        else
+        {
+            sentenceObject = null;
         }
     }
 
@@ -388,10 +421,15 @@ public class MagicController : MonoBehaviour
             //If the word is an adjective then add it to the list
             if (knownMagicWords[i-1].GetType().IsSubclassOf(typeof(MagicAdverb)))
             {
-                if (!adverbDropDown.options.Contains(dropDownOptions[i-1]) && sentenceVerb._compatibleAdverbs.Contains((MagicAdverb)knownMagicWords[i-1]))
+                for(int x = 0; x < sentenceVerb._compatibleAdverbs.Count; x++)
                 {
-                    adverbDropDown.AddWord(knownMagicWords[i - 1]);
+                    if(sentenceVerb._compatibleAdverbs[x].primaryAdverb == knownMagicWords[i - 1] && !adverbDropDown.options.Contains(dropDownOptions[i - 1]))
+                    {
+                        adverbDropDown.AddWord(knownMagicWords[i - 1]);
+                    }
+                   
                 }
+               
             }
         }
     }

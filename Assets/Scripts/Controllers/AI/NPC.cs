@@ -35,6 +35,9 @@ public class NPC : MonoBehaviour, IInteractable, IHurtable
     protected bool isEssential = false;
     public bool _isEssential { get { return isEssential; }  set { isEssential = value; } }
 
+    protected bool isDead = false;
+    public bool _isDead { get => isDead; set { isDead = value; } }
+
     [SerializeField]
     public UnityEvent OnInteract { get { return OnInteract; } }
 
