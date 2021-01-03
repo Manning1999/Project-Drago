@@ -38,17 +38,20 @@ public class Brisingr : MagicVerb
         {
             if (adverb.GetType() == typeof(Galba_Big))
             {
-                fireSize = 3;
+                fireSize = 2;
                 Debug.Log("Making larger fire");
             }
             else if (adverb.GetType() == typeof(Litil_little))
             {
                 fireSize = 0.3f;
+                Debug.Log("Small Brisingr");
             }
-            else
-            {
-                fireSize = 1;
-            }
+           
+        }
+        else
+        {
+            fireSize = 1;
+            Debug.Log("Casting regular brisingr");
         }
 
         Debug.Log("Succesfully cast");

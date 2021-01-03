@@ -45,7 +45,7 @@ public class RaycastStandardInteractable : MonoBehaviour, IInteractable, IThrowa
 
     public void SetInteractable(bool set)
     {
-
+        isInteractable = set;
     }
 
     public void Throw(Vector3 startPosition, Vector3 locationToThrowTo, float throwForce)

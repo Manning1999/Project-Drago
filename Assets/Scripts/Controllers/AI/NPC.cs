@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-public class NPC : MonoBehaviour, IInteractable, IHurtable
+public class NPC : MonoBehaviour, IInteractable, IHurtable, IMagicSelectable
 {
 
     [SerializeField]
@@ -41,7 +42,21 @@ public class NPC : MonoBehaviour, IInteractable, IHurtable
     [SerializeField]
     public UnityEvent OnInteract { get { return OnInteract; } }
 
+    [SerializeField]
+    protected float borderWidth = 0.2f;
+    public float _borderWidth { get => borderWidth; set { borderWidth = value; } }
+
     protected NavMeshAgent agent;
+
+    protected NPC attackTarget = null;
+    public NPC _attackTarget { get { return attackTarget; }  }
+
+    protected List<NPC> enemiesInRange = new List<NPC>();
+
+    protected Rigidbody rb;
+
+
+
 
 
 
@@ -53,14 +68,10 @@ public class NPC : MonoBehaviour, IInteractable, IHurtable
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        
+       
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     public void OnDie()
     {
@@ -93,5 +104,29 @@ public class NPC : MonoBehaviour, IInteractable, IHurtable
     public void MoveToPosition(Vector3 positionToMoveTo)
     {
         agent.SetDestination(positionToMoveTo);
+    }
+
+
+    public virtual void SetAttackTarget(NPC _attackTarget)
+    {
+        attackTarget = _attackTarget;
+        Debug.Log("Set enemy");
+    }
+
+
+    public void AddEnemy(NPC enemyToAdd)
+    {
+        enemiesInRange.Add(enemyToAdd);
+        Debug.Log("Added enemy");
+    }
+
+
+    public void RemoveEnemy(NPC enemyToRemove)
+    {
+        if (enemiesInRange.Contains(enemyToRemove))
+        {
+            enemiesInRange.Add(enemyToRemove);
+            Debug.Log("Removed enemy");
+        }
     }
 }

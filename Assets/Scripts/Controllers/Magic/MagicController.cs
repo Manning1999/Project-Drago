@@ -81,6 +81,9 @@ public class MagicController : MonoBehaviour
 
     int originalCullingMask;
 
+    bool isInCombat = false;
+
+
 
     private void Start()
     {
@@ -331,6 +334,7 @@ public class MagicController : MonoBehaviour
         {
             mainCameraColorGradingLayer.saturation.value = -100f;
             camera.cullingMask &= ~(1 << LayerMask.NameToLayer("Magical"));
+            Time.timeScale = 0.1f;
         }
         else
         {
@@ -338,27 +342,45 @@ public class MagicController : MonoBehaviour
             camera.cullingMask = originalCullingMask;
             SetObject(null);
             ResetMagicLocations();
+            Time.timeScale = 1;
         }
         magicalCamera.gameObject.SetActive(set);
 
     }
 
-
+    /// <summary>
+    /// This sets the object of the sentence
+    /// </summary>
+    /// <param name="objectToSet"></param>
     public void SetObject(GameObject objectToSet)
     {
+        
         if(sentenceObject != null)
         {
+
             sentenceObject.transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", unselectedObjectOutlineColor);
+            sentenceObject.transform.GetComponent<Renderer>().material.SetFloat("_Outline", 0.0f);
         }
-        if (objectToSet != null)
-        {
-            sentenceObject = objectToSet;
-            objectToSet.transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", selectedObjectOutlineColor);
-        }
-        else
-        {
-            sentenceObject = null;
-        }
+       
+            if (objectToSet != null && objectToSet != sentenceObject)
+            {
+                sentenceObject = objectToSet;
+                if(sentenceObject.transform.GetComponent<IMagicSelectable>() != null)
+                {
+                    objectToSet.transform.GetComponent<Renderer>().material.SetFloat("_Outline", sentenceObject.transform.GetComponent<IMagicSelectable>()._borderWidth);
+                }
+                else
+                {
+                    objectToSet.transform.GetComponent<Renderer>().material.SetFloat("_Outline", 0.2f);
+                }
+                objectToSet.transform.GetComponent<Renderer>().material.SetColor("_OutlineColor", selectedObjectOutlineColor);
+                
+            }
+            else
+            {
+                sentenceObject = null;
+            }
+      
     }
 
     public void SetVerb(MagicVerb word)
@@ -413,7 +435,7 @@ public class MagicController : MonoBehaviour
     {
         adverbDropDown.ClearOptions();
 
-
+        adverbDropDown.ClearWords();
         adverbDropDown.AddWord(null);
         for (int i = knownMagicWords.Count; i > 0; i--)
         {

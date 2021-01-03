@@ -94,6 +94,15 @@ public class PlayerController : MonoBehaviour, IHurtable
 
     Arrow nockedArrow = null;
 
+
+    [SerializeField]
+    private int maxMana = 100;
+
+    [SerializeField]
+    private int currentMana = 100;
+    public int _currentMana { get { return currentMana; } protected set { currentMana = value; } }
+
+
     public void Start()
     {
         rb = transform.GetComponent<Rigidbody>();
@@ -211,7 +220,7 @@ public class PlayerController : MonoBehaviour, IHurtable
 
     public void OnTakeDamage(int damageTaken)
     {
-        
+        UIController.Instance.SetHealthBar(health);    
     }
 
     public void OnHeal(int healthRestored)
@@ -223,4 +232,17 @@ public class PlayerController : MonoBehaviour, IHurtable
     {
         //Show death menu
     }
+
+
+    /// <summary>
+    /// This will reduce the players mana and then update the UI to reflect the amount of mana the player has
+    /// </summary>
+    /// <param name="manaToReduce"></param>
+    public void DecreaseMana(int manaToReduce)
+    {
+        currentMana -= manaToReduce;
+        UIController.instance.SetManaBar(currentMana);
+    }
+
+
 }

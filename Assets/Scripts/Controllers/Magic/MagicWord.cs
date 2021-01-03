@@ -58,5 +58,10 @@ public class MagicWord : MonoBehaviour
         MagicController.Instance.LearnMagicWord(this);
         NotificationController.Instance.CreateNotification("Learnt new word:", word);
     }
+
+    protected void DecreaseMana(int manaToUse)
+    {
+        
+    }
     
 }

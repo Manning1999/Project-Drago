@@ -37,7 +37,7 @@ public class Rock : MonoBehaviour, IThrowable
 
     private void OnEnable()
     {
-        Debug.Log("Enabled rock");
+
     }
 
  

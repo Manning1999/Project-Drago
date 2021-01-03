@@ -602,7 +602,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 50
+    maxNumParticles: 585
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -4785,7 +4785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageInterval: 0.75
-  damage: 10
+  damage: 3
   lifeTime: 7
 --- !u!65 &1915620437
 BoxCollider:

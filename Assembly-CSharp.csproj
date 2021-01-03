@@ -67,8 +67,20 @@
     <Compile Include="Assets\Crafting Mecanim Animation Pack FREE\Code\SmoothFollow.cs" />
     <Compile Include="Assets\Scripts\Arrow.cs" />
     <Compile Include="Assets\Scripts\Bow.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AI\ChildSight.cs" />
     <Compile Include="Assets\Scripts\Controllers\AI\DragonController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AI\IState.cs" />
     <Compile Include="Assets\Scripts\Controllers\AI\NPC.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AI\StateMachine.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AI\States\Attack.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AI\States\DragonFlightCircle.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AI\States\DragonLand.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AI\States\DragonReachCruisingHeight.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AI\States\DragonTakeOff.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AI\States\FindAttackTarget.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AI\States\GoToAttackTarget.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AI\States\GoToPlayer.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AI\States\Idle.cs" />
     <Compile Include="Assets\Scripts\Controllers\ConversationAI.cs" />
     <Compile Include="Assets\Scripts\Controllers\ConversationElement.cs" />
     <Compile Include="Assets\Scripts\Controllers\InteractionController.cs" />
@@ -76,6 +88,8 @@
     <Compile Include="Assets\Scripts\Controllers\Magic\Brisingr.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\Edtha_Me.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\Galba_Big.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\Heill_Heal.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Magic\Items\MagicStorage.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\Items\Rock.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\Litil_little.cs" />
     <Compile Include="Assets\Scripts\Controllers\Magic\MagicAdverb.cs" />
@@ -102,6 +116,7 @@
     <Compile Include="Assets\Scripts\Helpers\ThrowableExtension.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IHurtable.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\IMagicSelectable.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IThrowable.cs" />
     <Compile Include="Assets\Scripts\InventoryItem.cs" />
     <Compile Include="Assets\Scripts\ObjectiveTypes\HighlightObjective.cs" />
@@ -117,6 +132,7 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Fonts &amp; Materials\Custom Outlined.shader" />
     <None Include="Assets\Shaders\Outline Shader.shader" />
     <None Include="Assets\Models\PolygonPrototype\Shaders\Prototype_Object.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
@@ -126,7 +142,6 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\Models\PolygonPrototype\Shaders\Prototype_Global.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\Models\PolygonPrototype\Shaders\Prototype_Glass_Global.shader" />

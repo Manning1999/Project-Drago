@@ -11,6 +11,12 @@ public class MagicDropDown : TMP_Dropdown
 
     private List<MagicWord> words = new List<MagicWord>();
 
+    public void ClearWords()
+    {
+        words.Clear();
+        ClearOptions();
+    }
+
     public void AddWord(MagicWord word)
     {
 
@@ -34,7 +40,17 @@ public class MagicDropDown : TMP_Dropdown
 
     public void SetAdverb()
     {
-        MagicController.Instance.SetAdverb((MagicAdverb)words[value]);
+        Debug.Log("Adverb selected: " + words[value]);
+        if (words[value] != null)
+        {
+            MagicController.Instance.SetAdverb((MagicAdverb)words[value]);
+        }
+        else
+        {
+            MagicController.Instance.SetAdverb(null);
+
+            Debug.Log("Selected null");
+        }
     }
 
 

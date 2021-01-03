@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
@@ -60,6 +61,11 @@ public class UIController : MonoBehaviour
 
     [SerializeField]
     private GameObject magicUI = null;
+
+    [SerializeField]
+    private Slider healthBar, manaBar;
+
+
     
 
 
@@ -104,6 +110,8 @@ public class UIController : MonoBehaviour
                 if (isPaused == true)
                 {
                     //Hide pause menu
+                    healthBar.gameObject.SetActive(false);
+                    manaBar.gameObject.SetActive(false);
                 }
 
                 RaycastInteractionController.Instance.SetCanInteract(true);
@@ -267,6 +275,11 @@ public class UIController : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// This will close the spoecified unfocused dialogue
+    /// </summary>
+    /// <param name="dialogueToClose"></param>
     public void UnsetUnfocusedDialogue(UnfocusedDialogue dialogueToClose)
     {
         InactiveSpeechObjects.Add(dialogueToClose.gameObject);
@@ -380,6 +393,25 @@ public class UIController : MonoBehaviour
     public void SetShowCharacter(bool set)
     {
 
+    }
+
+
+    /// <summary>
+    /// This will set the value of the health bar
+    /// </summary>
+    /// <param name="health"></param>
+    public void SetHealthBar(int health)
+    {
+        healthBar.value = health;
+    }
+
+    /// <summary>
+    /// This will set the value of the mana bar
+    /// </summary>
+    /// <param name="health"></param>
+    public void SetManaBar(int mana)
+    {
+        manaBar.value = mana;
     }
 
 
